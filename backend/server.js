@@ -2,12 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const dotenv = require("dotenv");
+const cors = require("cors");
 
 // Load environment variables from .env file
 dotenv.config();
 
 const app = express();
-
+app.use(cors());
 // Middleware
 app.use(express.json());
 app.subscribe(passport.initialize());
