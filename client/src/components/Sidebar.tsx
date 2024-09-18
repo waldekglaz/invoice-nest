@@ -29,6 +29,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import BrightnessAutoRoundedIcon from "@mui/icons-material/BrightnessAutoRounded";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Link } from "react-router-dom";
 
 import ColorSchemeToggle from "./ColorSchemeToggle";
 import { closeSidebar } from "../utils/utils";
@@ -73,6 +74,10 @@ interface User {
 }
 
 export default function Sidebar({ user }: { user: User }) {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/sign-in";
+  };
   return (
     <Sheet
       className="Sidebar"
@@ -169,7 +174,7 @@ export default function Sidebar({ user }: { user: User }) {
           <ListItem>
             <ListItemButton>
               <DashboardRoundedIcon />
-              <ListItemContent>
+              <ListItemContent component={Link} to="/dashboard">
                 <Typography level="title-sm">Dashboard</Typography>
               </ListItemContent>
             </ListItemButton>
@@ -255,17 +260,17 @@ export default function Sidebar({ user }: { user: User }) {
                   <ListItemButton
                     role="menuitem"
                     component="a"
-                    href="/joy-ui/getting-started/templates/profile-dashboard/"
+                    href="/dashboard/user"
                   >
                     My profile
                   </ListItemButton>
                 </ListItem>
-                <ListItem>
+                {/* <ListItem>
                   <ListItemButton>Create a new user</ListItemButton>
                 </ListItem>
                 <ListItem>
                   <ListItemButton>Roles & permission</ListItemButton>
-                </ListItem>
+                </ListItem> */}
               </List>
             </Toggler>
           </ListItem>
@@ -305,7 +310,12 @@ export default function Sidebar({ user }: { user: User }) {
           <Typography level="title-sm">{user.name}</Typography>
           <Typography level="body-xs">{user.email}</Typography>
         </Box>
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton
+          size="sm"
+          variant="plain"
+          color="neutral"
+          onClick={() => handleLogout()}
+        >
           <LogoutRoundedIcon />
         </IconButton>
       </Box>
