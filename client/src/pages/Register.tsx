@@ -14,7 +14,7 @@ import Stack from "@mui/joy/Stack";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface FormElements extends HTMLFormControlsCollection {
   name: any;
@@ -54,6 +54,7 @@ const customTheme = extendTheme({});
 
 export default function Register() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isOnRegister = location.pathname === "/register";
 
   const handleRegisterUser = async (data: {
@@ -71,12 +72,32 @@ export default function Register() {
       });
       const responseData = await response.json();
       console.log(responseData);
+      if (response.ok) {
+        navigate("/sign-in");
+      }
     } catch (error) {
       console.log(error);
     }
   };
   const handleLoginUser = (data: { email: string; password: string }) => {
-    console.log(data);
+    fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData);
+        if (responseData.token) {
+          localStorage.setItem("token", responseData.token);
+          navigate("/dashboard");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
