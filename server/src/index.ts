@@ -1,0 +1,17 @@
+import express from 'express';
+import { connectDB } from './config/db';
+
+const app = express();
+const PORT = process.env.PORT || 8888;
+
+app.use(express.json());
+
+app.get('/', (_req, res) => {
+  res.send('API is running');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+
+connectDB();
