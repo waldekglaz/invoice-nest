@@ -1,0 +1,19 @@
+# Node
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# Env files
+.env
+.env.*.local
+
+# Build
+dist/
+build/
+
+# macOS / IDE
+.DS_Store
+.vscode
+.idea
